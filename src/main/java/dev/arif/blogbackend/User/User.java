@@ -1,6 +1,5 @@
 package dev.arif.blogbackend.User;
 
-import com.amazonaws.services.cloudwatchrum.model.UserDetails;
 import dev.arif.blogbackend.Blog.Blog;
 import jakarta.persistence.*;
 import lombok.*;
