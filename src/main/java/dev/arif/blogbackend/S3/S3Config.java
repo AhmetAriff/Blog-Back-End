@@ -13,9 +13,8 @@ public class S3Config {
 
     @Bean
     public S3Client s3Client(){
-        S3Client client = S3Client.builder()
+        return S3Client.builder()
                 .region(Region.of(region))
                 .build();
-        return client;
     }
 }

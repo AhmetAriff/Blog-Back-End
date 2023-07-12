@@ -29,8 +29,8 @@ public class Blog {
     @Column(name="text",nullable = false)
     private String text;
 
-    @Column(name="blog_image_url")
-    private String blogImageUrl;
+    @Column(name="blog_image_id")
+    private String blogImageId;
 
     @Column(name = "subject",nullable = false)
     private String subject;
