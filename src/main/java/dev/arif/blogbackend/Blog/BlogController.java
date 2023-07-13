@@ -1,6 +1,5 @@
 package dev.arif.blogbackend.Blog;
 
-import jakarta.servlet.http.PushBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import java.awt.*;
 public class BlogController {
 
     private final BlogService blogService;
-
 
     @PostMapping(
             value = "{blogId}/blog-image",
@@ -34,8 +32,6 @@ public class BlogController {
             @PathVariable("blogId") Long BlogId) {
         return blogService.getBlogImage(BlogId);
     }
-
-
 
 
 }

@@ -30,8 +30,8 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "user_image_url", nullable = false)
-    private String userImageUrl;
+    @Column(name = "user_image_id", nullable = false)
+    private String userImageId;
 
     @OneToMany(mappedBy = "user")
     private List<Blog> blogs;

@@ -2,7 +2,6 @@ package dev.arif.blogbackend.Blog;
 
 import dev.arif.blogbackend.Comment.Comment;
 import dev.arif.blogbackend.User.User;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;

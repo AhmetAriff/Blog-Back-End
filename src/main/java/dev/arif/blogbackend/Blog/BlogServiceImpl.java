@@ -32,7 +32,7 @@ public class BlogServiceImpl implements BlogService{
             s3Service.putObject("blog-images/%s/%s".formatted(blogId,blogImageId),
             file.getBytes());
         }catch (IOException e){
-            throw new RuntimeException("failed to upload profile image", e);
+            throw new RuntimeException("failed to upload blog image", e);
         }
         blogRepository.updateBlogImage(blogId, blogImageId);
     }
