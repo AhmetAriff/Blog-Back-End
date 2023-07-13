@@ -24,7 +24,7 @@ public class UserController {
             consumes = MediaType.IMAGE_JPEG_VALUE
     )
     public byte[] getUserProfileImage(
-            @PathVariable("blogId") Long userId){
+            @PathVariable("userId") Long userId){
         return userService.getUserProfileImage(userId);
     }
 
