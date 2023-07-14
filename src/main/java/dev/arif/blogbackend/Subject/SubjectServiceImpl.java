@@ -54,4 +54,14 @@ public class SubjectServiceImpl implements SubjectService {
                 subjectRepository.findAll()
         );
     }
+
+    @Override
+    public void deleteSubject(Long subjectId) {
+        subjectRepository.delete(
+            subjectRepository.findSubjectBySubjectId(subjectId)
+                    .orElseThrow(()->new ResourceNotFoundException(
+                            "subject with id [%s] not found".formatted(subjectId)
+                    ))
+        );
+    }
 }
