@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface SubjectService {
 
-    void addSubject(String subjectName);
+    void addSubject(CreateSubjectRequest createSubjectRequest);
 
     SubjectDto getSubjectById(Long subjectId);
 
