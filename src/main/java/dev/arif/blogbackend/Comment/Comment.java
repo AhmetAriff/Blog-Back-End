@@ -16,7 +16,15 @@ import lombok.Setter;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @SequenceGenerator(
+            name="comment_id_seq",
+            sequenceName = "comment_id_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "comment_id_seq"
+    )
     private Long commentId;
 
     @Column(name = "comment",nullable = false)

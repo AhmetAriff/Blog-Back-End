@@ -2,6 +2,7 @@ package dev.arif.blogbackend.Blog;
 
 import dev.arif.blogbackend.Comment.Comment;
 import dev.arif.blogbackend.User.User;
+import dev.arif.blogbackend.Subject.Subject;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +21,15 @@ import java.util.List;
 public class Blog {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @SequenceGenerator(
+            name="blog_id_seq",
+            sequenceName = "blog_id_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "blog_id_seq"
+    )
     private Long blogId;
 
     @Column(name = "title",nullable = false)
@@ -32,9 +41,6 @@ public class Blog {
     @Column(name="blog_image_id")
     private String blogImageId;
 
-    @Column(name = "subject",nullable = false)
-    private String subject;
-
     @Column(name = "like_count")
     private Integer likeCount = 0;
 
@@ -43,6 +49,10 @@ public class Blog {
 
     @Column(name="updated_date")
     private Date updatedDate;
+
+    @ManyToOne
+    @JoinColumn(name="subject_id")
+    private Subject subject;
 
     @OneToMany(mappedBy = "blog")
     private List<Comment> comments;
