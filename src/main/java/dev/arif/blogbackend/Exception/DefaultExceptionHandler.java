@@ -23,7 +23,6 @@ public class DefaultExceptionHandler {
 
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
-
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<ApiError> handleException(DuplicateResourceException e,
                                                     HttpServletRequest request){

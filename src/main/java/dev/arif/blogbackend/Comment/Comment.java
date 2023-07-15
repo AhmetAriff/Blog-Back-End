@@ -1,11 +1,15 @@
 package dev.arif.blogbackend.Comment;
 
 import dev.arif.blogbackend.Blog.Blog;
+import dev.arif.blogbackend.Reply.Reply;
+import dev.arif.blogbackend.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,7 +34,14 @@ public class Comment {
     @Column(name = "comment",nullable = false)
     private String comment;
 
+    @OneToMany(mappedBy = "comment")
+    private List<Reply> replies;
+
     @ManyToOne
     @JoinColumn(name = "blog_id")
     private Blog blog;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 }
