@@ -8,8 +8,6 @@ public interface SubjectService {
 
     SubjectDto getSubjectById(Long subjectId);
 
-    SubjectDto getSubjectBySubjectName(String subjectName);
-
     List<SubjectDto> getAllSubjects();
 
     void deleteSubject(Long subjectId);

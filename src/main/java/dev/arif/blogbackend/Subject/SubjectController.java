@@ -12,7 +12,6 @@ import java.util.List;
 public class SubjectController {
 
     private final SubjectService subjectService;
-
     @PostMapping
     ResponseEntity<?> addSubject (@RequestBody CreateSubjectRequest createSubjectRequest){
         subjectService.addSubject(createSubjectRequest);
@@ -25,11 +24,6 @@ public class SubjectController {
     @GetMapping("{subjectId}")
     ResponseEntity<SubjectDto> getSubjectById(@PathVariable Long subjectId){
         return ResponseEntity.ok(subjectService.getSubjectById(subjectId));
-    }
-
-    @GetMapping("{subjectName}")
-    ResponseEntity<SubjectDto> getSubjectByName(@PathVariable String subjectName){
-        return ResponseEntity.ok(subjectService.getSubjectBySubjectName(subjectName));
     }
     @DeleteMapping("{subjectId}")
     ResponseEntity<?> deleteSubjectById(@PathVariable Long subjectId){

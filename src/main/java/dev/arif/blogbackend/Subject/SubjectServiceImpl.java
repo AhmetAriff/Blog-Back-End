@@ -39,16 +39,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public SubjectDto getSubjectBySubjectName(String subjectName) {
-        return subjectMapper.subjectToSubjectDto(
-                subjectRepository.findSubjectBySubjectName(subjectName)
-                        .orElseThrow(()-> new ResourceNotFoundException(
-                                "subject with name [%s] not found".formatted(subjectName)
-                        ))
-        );
-    }
-
-    @Override
     public List<SubjectDto> getAllSubjects() {
         return subjectMapper.subjectListToSubjectDtoList(
                 subjectRepository.findAll()
