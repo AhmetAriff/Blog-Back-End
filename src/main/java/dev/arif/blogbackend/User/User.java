@@ -2,6 +2,7 @@ package dev.arif.blogbackend.User;
 
 import dev.arif.blogbackend.Blog.Blog;
 import dev.arif.blogbackend.Comment.Comment;
+import dev.arif.blogbackend.Reply.Reply;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,6 +47,9 @@ public class User {
 
     @OneToMany(mappedBy="user")
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user")
+    private List<Reply> replies;
 
 
     //TODO         implements UserDetails   , role based authentication

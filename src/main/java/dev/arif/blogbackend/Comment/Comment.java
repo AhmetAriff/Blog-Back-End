@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,9 @@ public class Comment {
 
     @Column(name = "comment",nullable = false)
     private String comment;
+
+    @Column(name = "comment_date")
+    private Date commentDate;
 
     @OneToMany(mappedBy = "comment")
     private List<Reply> replies;

@@ -1,11 +1,14 @@
 package dev.arif.blogbackend.Reply;
 
 import dev.arif.blogbackend.Comment.Comment;
+import dev.arif.blogbackend.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Entity
 @Getter
@@ -30,7 +33,14 @@ public class Reply {
     @Column(name = "reply")
     private String reply;
 
+    @Column(name = "reply_date")
+    private Date replyDate;
+
     @ManyToOne
     @JoinColumn(name = "comment_id")
     private Comment comment;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 }
