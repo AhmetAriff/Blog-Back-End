@@ -8,9 +8,8 @@ import lombok.Data;
 import java.util.Date;
 @Data
 public class CommentDto {
+    private User user;
     private Long commentId;
     private String comment;
-    private Blog blog;
-    private User user;
     private Date commentDate;
 }

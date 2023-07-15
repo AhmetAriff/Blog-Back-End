@@ -10,6 +10,7 @@ import java.util.Date;
 public class ReplyDto {
     private Long id;
     private String reply;
-    private User user;
     private Date replyDate;
+    private User user;
+
 }
