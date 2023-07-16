@@ -1,10 +1,10 @@
 package dev.arif.blogbackend.Subject;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class CreateSubjectRequest {
-    @NotNull(message = "subject name cont not be null")
+    @NotBlank(message = "subject name can not be null")
     private String subjectName;
 }
