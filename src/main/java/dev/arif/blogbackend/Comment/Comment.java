@@ -38,7 +38,7 @@ public class Comment {
     @Column(name = "comment_date")
     private Date commentDate;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "comment",cascade = CascadeType.ALL)
     private List<Reply> replies;
 
     @ManyToOne

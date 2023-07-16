@@ -28,6 +28,6 @@ public class Subject {
     @Column(name = "subject_name",nullable = false,unique = true )
     private String subjectName;
 
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subject",cascade=CascadeType.ALL)
     private List<Blog> blogs;
 }

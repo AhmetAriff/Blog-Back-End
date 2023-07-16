@@ -42,13 +42,13 @@ public class User {
     @Column(name = "user_image_id", nullable = false)
     private String userImageId;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Blog> blogs;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user",cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Reply> replies;
 
 

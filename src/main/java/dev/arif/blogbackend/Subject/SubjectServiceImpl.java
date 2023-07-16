@@ -2,12 +2,14 @@ package dev.arif.blogbackend.Subject;
 
 import dev.arif.blogbackend.Exception.DuplicateResourceException;
 import dev.arif.blogbackend.Exception.ResourceNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SubjectServiceImpl implements SubjectService {
 
     private final SubjectRepository subjectRepository;

@@ -5,12 +5,14 @@ import dev.arif.blogbackend.Blog.BlogRepository;
 import dev.arif.blogbackend.Exception.ResourceNotFoundException;
 import dev.arif.blogbackend.User.User;
 import dev.arif.blogbackend.User.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CommentServiceImpl implements CommentService {
 
     private final UserRepository userRepository;
