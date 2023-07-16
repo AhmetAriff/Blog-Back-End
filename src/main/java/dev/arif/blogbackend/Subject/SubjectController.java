@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.Subject;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ public class SubjectController {
 
     private final SubjectService subjectService;
     @PostMapping
-    ResponseEntity<?> addSubject (@RequestBody CreateSubjectRequest createSubjectRequest){
+    ResponseEntity<?> addSubject (@Valid @RequestBody CreateSubjectRequest createSubjectRequest){
         subjectService.addSubject(createSubjectRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
