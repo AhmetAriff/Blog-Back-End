@@ -8,5 +8,7 @@ public interface CommentService {
 
     List<CommentDto> getCommentsByBlogId(Long blogId);
 
+    CommentDto getCommentById(Long commentId);
+
     void deleteCommentsByCommentId(Long commentId);
 }

@@ -44,6 +44,17 @@ public class CommentServiceImpl implements CommentService {
                         ))
         );
     }
+
+    @Override
+    public CommentDto getCommentById(Long commentId) {
+        return commentMapper.commentToCommentDto(
+                commentRepository.findById(commentId)
+                        .orElseThrow(()-> new ResourceNotFoundException(
+                                "Comment With is [%s] ot found".formatted(commentId)
+                        ))
+        );
+    }
+
     @Override
     public void deleteCommentsByCommentId(Long commentId) {
         commentRepository.delete(
