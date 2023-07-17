@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -34,7 +34,7 @@ public class Reply {
     private String reply;
 
     @Column(name = "reply_date")
-    private Date replyDate;
+    private LocalDateTime replyDate;
 
     @ManyToOne
     @JoinColumn(name = "comment_id")

@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentMapper.addCommentRequestToComment(addCommentRequest);
         comment.setUser(user);
         comment.setBlog(blog);
+        comment.setCommentDate(LocalDateTime.now());
 
         commentRepository.save(comment);
     }

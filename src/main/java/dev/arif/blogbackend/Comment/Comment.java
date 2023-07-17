@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class Comment {
     private String comment;
 
     @Column(name = "comment_date")
-    private Date commentDate;
+    private LocalDateTime commentDate;
 
     @OneToMany(mappedBy = "comment",cascade = CascadeType.ALL)
     private List<Reply> replies;

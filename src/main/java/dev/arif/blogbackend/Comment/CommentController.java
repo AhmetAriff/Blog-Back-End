@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.Comment;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping()
-    ResponseEntity<?> addComment(@RequestBody AddCommentRequest addCommentRequest){
+    ResponseEntity<?> addComment(@RequestBody @Valid AddCommentRequest addCommentRequest){
         commentService.addComment(addCommentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.Reply;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.util.List;
 public class ReplyController {
     private final ReplyService replyService;
     @PostMapping
-    ResponseEntity<?> addReply(@RequestBody CreateReplyRequest createReplyRequest){
+    ResponseEntity<?> addReply(@RequestBody @Valid CreateReplyRequest createReplyRequest){
         replyService.addReply(createReplyRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
