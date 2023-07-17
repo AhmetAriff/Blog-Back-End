@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,41 @@ public class BlogServiceImpl implements BlogService{
             throw new RuntimeException("failed to upload blog image", e);
         }
         blogRepository.updateBlogImage(blogId, blogImageId);
+    }
+
+    @Override
+    public void addBlog(CreateBlogRequest createBlogRequest) {
+        //TODO blog ile resmini aynı anda yükleme olayı araştırılacak
+    }
+
+    @Override
+    public List<BlogDto> getBlogsOrderByCreatedDate() {
+        return null;
+    }
+
+    @Override
+    public List<BlogDto> getBlogsBySubject(Long subjectId) {
+        return null;
+    }
+
+    @Override
+    public List<BlogDto> getBlogsByUser(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<BlogDto> getBlogsOrderByLike(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<BlogDto> getBlogsByUserLike(Long userId) {
+        return null;
+    }
+
+    @Override
+    public void updateBlog(UpdateBlogRequest updateBlogRequest) {
+
     }
 
     @Override

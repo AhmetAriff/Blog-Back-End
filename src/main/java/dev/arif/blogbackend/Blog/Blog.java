@@ -42,9 +42,6 @@ public class Blog {
     @Column(name="blog_image_id")
     private String blogImageId;
 
-    @Column(name = "like_count")
-    private Integer likeCount = 0;
-
     @Column(name="created_date")
     private Date createdDate;
 
