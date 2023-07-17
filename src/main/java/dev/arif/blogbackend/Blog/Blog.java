@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -60,5 +61,8 @@ public class Blog {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+    @ManyToMany(mappedBy = "likedBlogs")
+    Set<User> likes;
 
 }

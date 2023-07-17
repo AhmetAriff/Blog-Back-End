@@ -25,7 +25,7 @@ public class CommentController {
     }
     @GetMapping("blogs/{blogId}")
     ResponseEntity<List<CommentDto>> getCommentsByBlogId(@PathVariable Long blogId){
-        return ResponseEntity.ok(commentService.getCommentsByBlogId(blogId));
+        return ResponseEntity.ok(commentService.getCommentsByBlogIdOrderByCommentDateDesc(blogId));
     }
     @DeleteMapping("{commentId}")
     ResponseEntity<?> deleteCommentById(@PathVariable Long commentId){

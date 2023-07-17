@@ -38,9 +38,9 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
     }
     @Override
-    public List<CommentDto> getCommentsByBlogId(Long blogId) {
+    public List<CommentDto> getCommentsByBlogIdOrderByCommentDateDesc(Long blogId) {
         return commentMapper.commentsToCommentDtoList(
-                commentRepository.findCommentsByBlog_BlogId(blogId)
+                commentRepository.findCommentsByBlog_BlogIdOrderByCommentDateDesc(blogId)
                         .orElseThrow(()-> new ResourceNotFoundException(
                                 "Blog with id [%s] not found".formatted(blogId)
                         ))

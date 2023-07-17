@@ -1,12 +1,9 @@
 package dev.arif.blogbackend.Comment;
 
-import dev.arif.blogbackend.Blog.Blog;
 import dev.arif.blogbackend.User.User;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 @Data
 public class CommentDto {
     private User user;

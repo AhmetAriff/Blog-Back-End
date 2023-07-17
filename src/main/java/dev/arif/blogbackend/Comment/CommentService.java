@@ -6,7 +6,7 @@ public interface CommentService {
 
     void addComment (AddCommentRequest addCommentRequest);
 
-    List<CommentDto> getCommentsByBlogId(Long blogId);
+    List<CommentDto> getCommentsByBlogIdOrderByCommentDateDesc(Long blogId);
 
     CommentDto getCommentById(Long commentId);
 
