@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -43,10 +43,10 @@ public class Blog {
     private String blogImageId;
 
     @Column(name="created_date")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(name="updated_date")
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 
     @ManyToOne
     @JoinColumn(name="subject_id")

@@ -1,9 +1,10 @@
 package dev.arif.blogbackend.Blog;
 
+import dev.arif.blogbackend.Subject.Subject;
 import dev.arif.blogbackend.User.User;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 @Data
 public class BlogDto {
 
@@ -15,14 +16,14 @@ public class BlogDto {
 
     private String blogImageId;
 
-    private String subject;
+    private Subject subject;
 
-    private int likeCount; //entity sınıfımda yok sadece bursa var
+    private int likeCount; //entity sınıfımda yok sadece burda var
     // entiyiyi koyarsam @Transient anatasyonu eklemeliyim
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 
     private User user;
 }

@@ -54,7 +54,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "course_like",
+            name = "blog_like",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "blog_id"))
     Set<Blog> likedBlogs;
