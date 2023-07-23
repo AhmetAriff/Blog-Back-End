@@ -2,20 +2,27 @@ package dev.arif.blogbackend.Blog;
 
 import dev.arif.blogbackend.Exception.ResourceNotFoundException;
 import dev.arif.blogbackend.S3.S3Service;
+import dev.arif.blogbackend.Subject.Subject;
+import dev.arif.blogbackend.Subject.SubjectRepository;
+import dev.arif.blogbackend.User.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class BlogServiceImpl implements BlogService{
 
     private final S3Service s3Service;
     private final BlogRepository blogRepository;
+    private final SubjectRepository subjectRepository;
     private final BlogMapper blogMapper;
 
     private void checkIfBlogExistOrThrow(Long blogId) {
@@ -40,13 +47,23 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public void addBlog(CreateBlogRequest createBlogRequest) {
-        //TODO blog ile resmini aynı anda yükleme olayı araştırılacak
+        Subject subject = subjectRepository.findById(createBlogRequest.getSubjectId())
+                .orElseThrow(()-> new ResourceNotFoundException(
+                        "Subject with id [%s] not found".formatted(createBlogRequest.getSubjectId())
+                ));
+        User user = null ; //TODO principal getUser()
+        Blog blog = blogMapper.createBlogRequestToBlog(createBlogRequest);
+        blog.setSubject(subject);
+        blog.setUser(user);
+        blog.setCreatedDate(LocalDateTime.now());
+
+        blogRepository.save(blog);
     }
 
     @Override
     public List<BlogDto> getBlogsOrderByCreatedDate() {
         return blogMapper.blogsToBlogDtoList(
-                blogRepository.findAllByOrderByLikesDesc()
+                blogRepository.findAllByOrderByCreatedDateDesc()
         );
     }
 
@@ -71,7 +88,9 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<BlogDto> getBlogsOrderByLike(Long userId) {
-        return null ;
+       return blogMapper.blogsToBlogDtoList(
+               blogRepository.findAllOrderByLikesDesc()
+       );
     }
 
     @Override
@@ -86,7 +105,14 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public void updateBlog(UpdateBlogRequest updateBlogRequest) {
-
+         blogRepository.save(
+                 blogMapper.updateBlogRequestToBlog(
+                         blogRepository.findBlogByBlogId(updateBlogRequest.getBlogId())
+                                 .orElseThrow(()-> new ResourceNotFoundException(
+                                         "Blog with [%s] is is not found".formatted(updateBlogRequest.getBlogId())
+                                 )),updateBlogRequest
+                 )
+         );
     }
 
     @Override

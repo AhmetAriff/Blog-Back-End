@@ -7,5 +7,5 @@ import lombok.Data;
 public class CreateBlogRequest {
     private String title;
     private String text;
-    private Subject subject;
+    private Long subjectId;
 }
