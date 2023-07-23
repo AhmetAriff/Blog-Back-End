@@ -16,9 +16,9 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
 
     Optional <List<Blog>> findBlogsBySubject_SubjectId(Long subjectId);
 
-    Optional<List<Blog>> findAllByOrderByCreatedDateAsc();
+    List<Blog> findAllByOrderByCreatedDateDesc();
 
-    Optional<List<Blog>> findAllByOrderByLikesDesc();
+    List<Blog> findAllByOrderByLikesDesc();
 
     Optional<List<Blog>> findBlogByUser_UserId(Long userId);
 

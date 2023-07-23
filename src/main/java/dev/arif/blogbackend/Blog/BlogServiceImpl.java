@@ -15,8 +15,8 @@ import java.util.UUID;
 public class BlogServiceImpl implements BlogService{
 
     private final S3Service s3Service;
-
     private final BlogRepository blogRepository;
+    private final BlogMapper blogMapper;
 
     private void checkIfBlogExistOrThrow(Long blogId) {
         if(!blogRepository.existsBlogByBlogId(blogId)){
@@ -45,27 +45,43 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<BlogDto> getBlogsOrderByCreatedDate() {
-        return null;
+        return blogMapper.blogsToBlogDtoList(
+                blogRepository.findAllByOrderByLikesDesc()
+        );
     }
 
     @Override
     public List<BlogDto> getBlogsBySubject(Long subjectId) {
-        return null;
+        return blogMapper.blogsToBlogDtoList(
+                blogRepository.findBlogsBySubject_SubjectId(subjectId)
+                        .orElseThrow(()-> new ResourceNotFoundException(
+                                "Subject with [%s] is not found".formatted(subjectId)
+                        ))
+        );
     }
-
     @Override
     public List<BlogDto> getBlogsByUser(Long userId) {
-        return null;
+        return blogMapper.blogsToBlogDtoList(
+                blogRepository.findBlogByUser_UserId(userId)
+                        .orElseThrow(()-> new ResourceNotFoundException(
+                                "User with [%s] id not found".formatted(userId)
+                        ))
+        );
     }
 
     @Override
     public List<BlogDto> getBlogsOrderByLike(Long userId) {
-        return null;
+        return null ;
     }
 
     @Override
     public List<BlogDto> getBlogsByUserLike(Long userId) {
-        return null;
+        return blogMapper.blogsToBlogDtoList(
+                blogRepository.findDistinctByLikes_UserId(userId)
+                        .orElseThrow(()-> new ResourceNotFoundException(
+                                "User with [%s] id not found".formatted(userId)
+                        ))
+        );
     }
 
     @Override
