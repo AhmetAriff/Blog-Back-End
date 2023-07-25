@@ -21,7 +21,7 @@ public class UserController {
     }
     @GetMapping(
             value = ("{userId}/profile-image"),
-            consumes = MediaType.IMAGE_JPEG_VALUE
+            produces = MediaType.IMAGE_JPEG_VALUE
     )
     public byte[] getUserProfileImage(
             @PathVariable("userId") Long userId){
