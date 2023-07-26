@@ -18,8 +18,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class JWTUtil {
 
     private static final String SECRET_KEY =
-            "foobar_123456789_foobar_123456789_foobar_123456789_foobar_123456789";
-
+            "4D6251655368566D597133743677397A24432646294A404E635266556A576E5A";
 
     public String issueToken(String subject) {
         return issueToken(subject, Map.of());
