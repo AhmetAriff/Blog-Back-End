@@ -10,7 +10,7 @@ public interface UserService {
 
     void saveUserVerificationToken(User user, String token);
 
-    void validateVerificationToken(String token);
+    String validateVerificationToken(String token);
 
     User registerUser(UserRegistrationRequest request);
 }

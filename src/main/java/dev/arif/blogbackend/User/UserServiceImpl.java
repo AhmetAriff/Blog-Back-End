@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void validateVerificationToken(String token) {
+    public String validateVerificationToken(String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
                 .orElseThrow(()->new ResourceNotFoundException(
                         "Not found [%s] verification token".formatted(token)
@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setEnabled(true);
         userRepository.save(user);
+        return "valid";
     }
 
     @Override

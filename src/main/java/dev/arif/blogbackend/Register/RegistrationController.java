@@ -1,5 +1,8 @@
 package dev.arif.blogbackend.Register;
 
+import dev.arif.blogbackend.Exception.InvalidTokenException;
+import dev.arif.blogbackend.Exception.ResourceNotFoundException;
+import dev.arif.blogbackend.Register.Token.VerificationToken;
 import dev.arif.blogbackend.Register.Token.VerificationTokenRepository;
 import dev.arif.blogbackend.User.User;
 import dev.arif.blogbackend.User.UserService;
@@ -23,9 +26,19 @@ public class RegistrationController {
         publisher.publishEvent(new RegistrationCompleteEvent(user,applicationUrl(request)));
         return ResponseEntity.status(HttpStatus.CREATED).build();//TODO frontende tarafında check your mail yazdırılacak
     }
-    @GetMapping("verify-mail")
-    public ResponseEntity<?> verifyEmail(){
-        return null;//TODO
+    @GetMapping("verifyEmail")
+    public ResponseEntity<?> verifyEmail(@RequestParam("token") String token){
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
+                .orElseThrow(()->new ResourceNotFoundException(
+                        "invalid verification token"
+                ));
+        if(verificationToken.getUser().isEnabled()){
+            throw new RuntimeException("This account has already been verified, please, login.");}
+        String verificationResult = userService.validateVerificationToken(token);
+        if (verificationResult.equalsIgnoreCase("valid")){
+            ResponseEntity.ok().build();
+        }
+        throw new InvalidTokenException();
     }
 
     public String applicationUrl(HttpServletRequest request) {
