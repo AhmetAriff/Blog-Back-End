@@ -6,4 +6,6 @@ public interface UserService {
     void uploadUserProfileImage(Long userId, MultipartFile file);
 
     byte[] getUserProfileImage(Long userId);
+
+    void saveUserVerificationToken(User user, String verificationToken);
 }

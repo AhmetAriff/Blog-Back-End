@@ -54,4 +54,9 @@ public class UserServiceImpl implements UserService {
                 "user-images/%s/%s".formatted(userId,user.getUserImageId())
         );
     }
+
+    @Override
+    public void saveUserVerificationToken(User user, String verificationToken) {
+        //TODO
+    }
 }
