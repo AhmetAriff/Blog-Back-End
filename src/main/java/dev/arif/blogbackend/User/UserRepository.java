@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("update User u set u.userImageId = :image where u.userId = :id")
     void updateUserProfileImage(@Param(value = "id") long id, @Param(value = "image") String image);
     Optional<User> findUserByMail(String mail);
+    Boolean existsUserByUserName(String userName);
+    Boolean existsUserByMail(String mail);
 }
