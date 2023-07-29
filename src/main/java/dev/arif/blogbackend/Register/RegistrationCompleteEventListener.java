@@ -30,7 +30,7 @@ public class RegistrationCompleteEventListener
         user = event.getUser();
         String verificationToken = UUID.randomUUID().toString();
         userService.saveUserVerificationToken(user,verificationToken);
-        String url = event.getApplicationUrl()+"/register/verifyEmail?token="+verificationToken;
+        String url = event.getApplicationUrl()+"/api/v1/register/verifyEmail?token="+verificationToken;
         try {
             sendVerificationEmail(url);
         } catch (MessagingException | UnsupportedEncodingException e) {
@@ -43,7 +43,7 @@ public class RegistrationCompleteEventListener
 
         String subject ="Email Verification";
         String senderName ="User Registration Portal Service";
-        String mailContent = "<p> Hi, "+ user.getFirstName()+ ", </p>"+
+        String mailContent = "<p> Hi, "+ user.getUsername()+ ", </p>"+
                 "<p>Thank you for registering with us,"+" "+
                 "Please, follow the link below to complete your registration.</p>"+
                 "<a href=\"" +url+ "\">Verify your email to activate your account</a>"+
