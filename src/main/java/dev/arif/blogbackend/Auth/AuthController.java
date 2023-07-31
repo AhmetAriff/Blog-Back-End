@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.Auth;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("login")
-    public ResponseEntity<?> login (@RequestBody AuthRequest request){
+    public ResponseEntity<?> login (@Valid @RequestBody AuthRequest request){
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION,response.token)

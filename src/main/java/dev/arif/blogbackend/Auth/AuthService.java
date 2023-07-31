@@ -3,7 +3,7 @@ package dev.arif.blogbackend.Auth;
 import dev.arif.blogbackend.Jwt.JWTUtil;
 import dev.arif.blogbackend.User.User;
 import dev.arif.blogbackend.User.UserDto;
-import dev.arif.blogbackend.User.UserMapper;
+import dev.arif.blogbackend.User.UserMapperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +16,7 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
-    private final UserMapper userMapper;
+    private final UserMapperService userMapperService;
 
     public AuthResponse login (AuthRequest request){
         Authentication authentication = authenticationManager.authenticate(
@@ -26,7 +26,7 @@ public class AuthService {
                 )
         );
         User principal = (User) authentication.getPrincipal();
-        UserDto userDto = userMapper.userToUserDto(principal);
+        UserDto userDto = userMapperService.userToUserDto(principal);
         String token = jwtUtil.issueToken(userDto.getUserName(),userDto.getRoles());
         return new AuthResponse(token,userDto);
     }
