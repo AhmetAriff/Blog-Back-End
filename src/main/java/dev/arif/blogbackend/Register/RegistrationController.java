@@ -24,7 +24,7 @@ public class RegistrationController {
     public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest registrationRequest, final HttpServletRequest request){
         User user = userService.registerUser(registrationRequest);
         publisher.publishEvent(new RegistrationCompleteEvent(user,applicationUrl(request)));
-        return ResponseEntity.status(HttpStatus.CREATED).build();//TODO frontende tarafında check your mail yazdırılacak
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @GetMapping("verifyEmail")
     public ResponseEntity<?> verifyEmail(@RequestParam("token") String token){
@@ -34,13 +34,11 @@ public class RegistrationController {
                 ));
         if(verificationToken.getUser().isEnabled()){
             throw new RuntimeException("This account has already been verified, please, login.");}
-        String verificationResult = userService.validateVerificationToken(token);
-        if (verificationResult.equalsIgnoreCase("valid")){
-            ResponseEntity.ok().build();
+        if (userService.validateVerificationToken(token)){
+            return ResponseEntity.ok("mail is verified");
         }
         throw new InvalidTokenException();
     }
-
     public String applicationUrl(HttpServletRequest request) {
         return "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
     }

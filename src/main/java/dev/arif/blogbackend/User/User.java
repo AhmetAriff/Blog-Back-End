@@ -69,11 +69,12 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "blog_id"))
     Set<Blog> likedBlogs;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
-
     @Override
     public String getUsername() {
         return userName;

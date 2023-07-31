@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String validateVerificationToken(String token) {
+    public boolean validateVerificationToken(String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
                 .orElseThrow(()->new ResourceNotFoundException(
                         "Not found [%s] verification token".formatted(token)
@@ -83,15 +83,19 @@ public class UserServiceImpl implements UserService {
         }
         user.setEnabled(true);
         userRepository.save(user);
-        return "valid";
+        return true;
     }
 
     @Override
     public User registerUser(UserRegistrationRequest request) {
         if(userRepository.existsUserByUserName(request.getUserName()))
-            throw new DuplicateResourceException("username [%s] already exist".formatted(request.getUserName()));
+            throw new DuplicateResourceException(
+                    "username [%s] already exist".formatted(request.getUserName())
+            );
         if(userRepository.existsUserByMail(request.getMail()))
-            throw new DuplicateResourceException("mail [%s] already exist".formatted(request.getMail()));
+            throw new DuplicateResourceException(
+                    "mail [%s] already exist".formatted(request.getMail())
+            );
 
         User user = new User();
         user.setUserName(request.getUserName());

@@ -44,11 +44,11 @@ public class DefaultExceptionHandler {
         ApiError apiError = new ApiError(
                 request.getRequestURI(),
                 e.getMessage(),
-                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.GONE.value(),
                 LocalDateTime.now()
         );
 
-        return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(apiError, HttpStatus.GONE);
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex) {
