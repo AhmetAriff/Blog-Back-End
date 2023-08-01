@@ -34,7 +34,7 @@ public class AuthService {
     public AuthResponse login (AuthRequest request){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getMail(),
+                        request.getUserName(),
                         request.getPassword()
                 )
         );

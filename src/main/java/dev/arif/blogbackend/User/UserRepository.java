@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
 
     Optional<User> findUserByUserId(Long userId);
+
+    Optional<User> findUserByUserName(String userName);
     Boolean existsUserByUserId(Long blogId);
     @Modifying
     @Query("update User u set u.userImageId = :image where u.userId = :id")
