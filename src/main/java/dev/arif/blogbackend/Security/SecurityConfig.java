@@ -57,12 +57,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "api/v1/register/**",
-                        "api/v1/auth/**"
+                        "api/v1/auth/**",
+                        "api/v1/users/**"
                 )
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/users/**")
+                .requestMatchers("/subjects/**")
                 .hasAnyAuthority("USER", "ADMIN")
                 .and().formLogin().and().build();
     }

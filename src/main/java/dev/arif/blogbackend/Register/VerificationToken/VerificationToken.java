@@ -1,4 +1,4 @@
-package dev.arif.blogbackend.Register.Token;
+package dev.arif.blogbackend.Register.VerificationToken;
 
 import dev.arif.blogbackend.User.User;
 import jakarta.persistence.*;

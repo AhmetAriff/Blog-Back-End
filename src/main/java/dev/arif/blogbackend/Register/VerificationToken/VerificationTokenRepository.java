@@ -1,4 +1,4 @@
-package dev.arif.blogbackend.Register.Token;
+package dev.arif.blogbackend.Register.VerificationToken;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -2,6 +2,7 @@ package dev.arif.blogbackend.User;
 
 import dev.arif.blogbackend.Blog.Blog;
 import dev.arif.blogbackend.Comment.Comment;
+import dev.arif.blogbackend.Jwt.Token.Token;
 import dev.arif.blogbackend.Reply.Reply;
 import jakarta.persistence.*;
 import lombok.*;
@@ -61,6 +62,9 @@ public class User implements UserDetails {
 
     @Column(name = "is_enabled")
     private boolean enabled;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Token> tokens;
 
     @ManyToMany
     @JoinTable(

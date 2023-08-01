@@ -2,8 +2,8 @@ package dev.arif.blogbackend.Register;
 
 import dev.arif.blogbackend.Exception.InvalidTokenException;
 import dev.arif.blogbackend.Exception.ResourceNotFoundException;
-import dev.arif.blogbackend.Register.Token.VerificationToken;
-import dev.arif.blogbackend.Register.Token.VerificationTokenRepository;
+import dev.arif.blogbackend.Register.VerificationToken.VerificationToken;
+import dev.arif.blogbackend.Register.VerificationToken.VerificationTokenRepository;
 import dev.arif.blogbackend.User.User;
 import dev.arif.blogbackend.User.UserService;
 import jakarta.servlet.http.HttpServletRequest;
