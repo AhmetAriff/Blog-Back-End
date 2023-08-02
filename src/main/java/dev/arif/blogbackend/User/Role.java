@@ -2,10 +2,15 @@ package dev.arif.blogbackend.User;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Role {
     ADMIN,
     USER;
-    public SimpleGrantedAuthority getAuthorities(){
-        return new SimpleGrantedAuthority("ROLE_" + this.name());
+    public List<SimpleGrantedAuthority> getAuthorities(){
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+        return authorities;
     }
 }

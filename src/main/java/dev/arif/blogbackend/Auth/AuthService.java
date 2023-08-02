@@ -80,16 +80,16 @@ public class AuthService {
     ) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
-        final String userEmail;
+        final String userName;
         if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
             return;
         }
         refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
-        if (userEmail != null) {
-            var user = userRepository.findUserByMail(userEmail)
+        userName = jwtService.extractUsername(refreshToken);
+        if (userName != null) {
+            var user = userRepository.findUserByUserName(userName)
                     .orElseThrow(()-> new ResourceNotFoundException(
-                            "User with mail [%s] is not found".formatted(userEmail)
+                            "User with username [%s] is not found".formatted(userName)
                     ));
             UserDto userDto = userMapperService.userToUserDto(user);
             if (jwtService.isTokenValid(refreshToken, user)) {
