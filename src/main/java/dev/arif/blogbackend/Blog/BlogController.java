@@ -1,11 +1,14 @@
 package dev.arif.blogbackend.Blog;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 @RestController
 @RequestMapping("api/v1/blogs")
@@ -13,6 +16,13 @@ import java.awt.*;
 public class BlogController {
 
     private final BlogService blogService;
+
+
+    @PostMapping
+    public ResponseEntity<?> addBlog(@RequestBody CreateBlogRequest createBlogRequest) {
+        blogService.addBlog(createBlogRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
     @PostMapping(
             value = "{blogId}/blog-image",

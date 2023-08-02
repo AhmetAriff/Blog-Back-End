@@ -8,10 +8,15 @@ import dev.arif.blogbackend.User.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -51,7 +56,8 @@ public class BlogServiceImpl implements BlogService{
                 .orElseThrow(()-> new ResourceNotFoundException(
                         "Subject with id [%s] not found".formatted(createBlogRequest.getSubjectId())
                 ));
-        User user = null ; //TODO principal getUser()
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = (User) authentication.getPrincipal();
         Blog blog = blogMapper.createBlogRequestToBlog(createBlogRequest);
         blog.setSubject(subject);
         blog.setUser(user);

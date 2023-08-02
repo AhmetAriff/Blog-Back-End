@@ -22,7 +22,7 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
 
     Optional<List<Blog>> findBlogByUser_UserId(Long userId);
 
-    Optional<List<Blog>> findDistinctByLikes_UserId(Long userId);
+    Optional<List<Blog>> findDistinctByLikes_UserId(Long userId); //TODO fonksiyon bozuk olabilir düzelt
 
     Boolean existsBlogByBlogId(Long blogId);
     @Modifying

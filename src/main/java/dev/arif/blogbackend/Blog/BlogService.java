@@ -2,6 +2,7 @@ package dev.arif.blogbackend.Blog;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 
 public interface BlogService {
