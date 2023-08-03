@@ -19,11 +19,9 @@ import java.util.List;
 @Transactional
 public class CommentServiceImpl implements CommentService {
 
-    private final UserRepository userRepository;
     private final BlogRepository blogRepository;
-    private final CommentMapper commentMapper;
+    private final CommentMapperService commentMapperService;
     private final CommentRepository commentRepository;
-    private final UserMapperService userMapperService;
     @Override
     public void addComment(AddCommentRequest addCommentRequest) {
         Blog blog = blogRepository.findById(addCommentRequest.getBlogId())
@@ -31,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
                         "Blog with id [%s] not found".formatted(addCommentRequest.getBlogId())
                 ));
         var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Comment comment = commentMapper.addCommentRequestToComment(addCommentRequest);
+        Comment comment = commentMapperService.addCommentRequestToComment(addCommentRequest);
         comment.setUser(user);
         comment.setBlog(blog);
         comment.setCommentDate(LocalDateTime.now());
@@ -40,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
     }
     @Override
     public List<CommentDto> getCommentsByBlogIdOrderByCommentDateDesc(Long blogId) {
-        return commentMapper.commentsToCommentDtoList(
+        return commentMapperService.commentsToCommentDtoList(
                 commentRepository.findCommentsByBlog_BlogIdOrderByCommentDateDesc(blogId)
                         .orElseThrow(()-> new ResourceNotFoundException(
                                 "Blog with id [%s] not found".formatted(blogId)
@@ -50,14 +48,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto getCommentById(Long commentId) {
-        var comment = commentRepository.findById(commentId)
-                .orElseThrow(()-> new ResourceNotFoundException(
-                        "Comment With is [%s] ot found".formatted(commentId)
-                ));
-        var userDto = userMapperService.userToUserDto(comment.getUser());
-        var commentDto = commentMapper.commentToCommentDto(comment);
-        commentDto.setUserDto(userDto);
-        return commentDto;
+        return commentMapperService.commentToCommentDto(
+                commentRepository.findById(commentId)
+                        .orElseThrow(()-> new ResourceNotFoundException(
+                                "Comment with id [%s] not found".formatted(commentId)
+                        ))
+        );
     }
 
     @Override

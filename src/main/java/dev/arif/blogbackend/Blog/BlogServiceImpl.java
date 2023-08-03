@@ -28,7 +28,7 @@ public class BlogServiceImpl implements BlogService{
     private final S3Service s3Service;
     private final BlogRepository blogRepository;
     private final SubjectRepository subjectRepository;
-    private final BlogMapper blogMapper;
+    private final BlogMapperService blogMapperService;
 
     private void checkIfBlogExistOrThrow(Long blogId) {
         if(!blogRepository.existsBlogByBlogId(blogId)){
@@ -57,7 +57,7 @@ public class BlogServiceImpl implements BlogService{
                         "Subject with id [%s] not found".formatted(createBlogRequest.getSubjectId())
                 ));
         var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Blog blog = blogMapper.createBlogRequestToBlog(createBlogRequest);
+        Blog blog = blogMapperService.createBlogRequestToBlog(createBlogRequest);
         blog.setSubject(subject);
         blog.setUser(user);
         blog.setCreatedDate(LocalDateTime.now());
@@ -67,14 +67,14 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<BlogDto> getBlogsOrderByCreatedDate() {
-        return blogMapper.blogsToBlogDtoList(
+        return blogMapperService.blogsToBlogDtoList(
                 blogRepository.findAllByOrderByCreatedDateDesc()
         );
     }
 
     @Override
     public List<BlogDto> getBlogsBySubject(Long subjectId) {
-        return blogMapper.blogsToBlogDtoList(
+        return blogMapperService.blogsToBlogDtoList(
                 blogRepository.findBlogsBySubject_SubjectId(subjectId)
                         .orElseThrow(()-> new ResourceNotFoundException(
                                 "Subject with [%s] is not found".formatted(subjectId)
@@ -83,7 +83,7 @@ public class BlogServiceImpl implements BlogService{
     }
     @Override
     public List<BlogDto> getBlogsByUser(Long userId) {
-        return blogMapper.blogsToBlogDtoList(
+        return blogMapperService.blogsToBlogDtoList(
                 blogRepository.findBlogByUser_UserId(userId)
                         .orElseThrow(()-> new ResourceNotFoundException(
                                 "User with [%s] id not found".formatted(userId)
@@ -93,14 +93,14 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<BlogDto> getBlogsOrderByLike(Long userId) {
-       return blogMapper.blogsToBlogDtoList(
+       return blogMapperService.blogsToBlogDtoList(
                blogRepository.findAllOrderByLikesDesc()
        );
     }
 
     @Override
     public List<BlogDto> getBlogsByUserLike(Long userId) {
-        return blogMapper.blogsToBlogDtoList(
+        return blogMapperService.blogsToBlogDtoList(
                 blogRepository.findDistinctByLikes_UserId(userId)
                         .orElseThrow(()-> new ResourceNotFoundException(
                                 "User with [%s] id not found".formatted(userId)
@@ -111,7 +111,7 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public void updateBlog(UpdateBlogRequest updateBlogRequest) {
          blogRepository.save(
-                 blogMapper.updateBlogRequestToBlog(
+                 blogMapperService.updateBlogRequestToBlog(
                          blogRepository.findBlogByBlogId(updateBlogRequest.getBlogId())
                                  .orElseThrow(()-> new ResourceNotFoundException(
                                          "Blog with [%s] is is not found".formatted(updateBlogRequest.getBlogId())

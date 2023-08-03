@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.Subject;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.arif.blogbackend.Blog.Blog;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,5 +30,6 @@ public class Subject {
     private String subjectName;
 
     @OneToMany(mappedBy = "subject",cascade=CascadeType.ALL)
+    @JsonManagedReference
     private List<Blog> blogs;
 }

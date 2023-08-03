@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.User;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.arif.blogbackend.Blog.Blog;
 import dev.arif.blogbackend.Comment.Comment;
 import dev.arif.blogbackend.Jwt.Token.Token;
@@ -51,9 +52,11 @@ public class User implements UserDetails {
     private String userImageId;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Blog> blogs;
 
     @OneToMany(mappedBy="user",cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

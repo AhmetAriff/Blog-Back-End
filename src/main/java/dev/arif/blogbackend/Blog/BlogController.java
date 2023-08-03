@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/blogs")
@@ -22,6 +23,11 @@ public class BlogController {
     public ResponseEntity<?> addBlog(@RequestBody CreateBlogRequest createBlogRequest) {
         blogService.addBlog(createBlogRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BlogDto>> getBlogsOrderByCreatedDate() {
+        return ResponseEntity.ok(blogService.getBlogsOrderByCreatedDate()) ;
     }
 
     @PostMapping(

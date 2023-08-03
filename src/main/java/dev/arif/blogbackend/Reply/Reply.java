@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.Reply;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import dev.arif.blogbackend.Comment.Comment;
 import dev.arif.blogbackend.User.User;
 import jakarta.persistence.*;
@@ -38,9 +39,11 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name = "comment_id")
+    @JsonBackReference
     private Comment comment;
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private User user;
 }

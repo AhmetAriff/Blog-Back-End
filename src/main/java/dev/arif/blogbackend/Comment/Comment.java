@@ -1,5 +1,7 @@
 package dev.arif.blogbackend.Comment;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.arif.blogbackend.Blog.Blog;
 import dev.arif.blogbackend.Reply.Reply;
 import dev.arif.blogbackend.User.User;
@@ -40,13 +42,16 @@ public class Comment {
     private LocalDateTime commentDate;
 
     @OneToMany(mappedBy = "comment",cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Reply> replies;
 
     @ManyToOne
     @JoinColumn(name = "blog_id")
+    @JsonBackReference
     private Blog blog;
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private User user;
 }

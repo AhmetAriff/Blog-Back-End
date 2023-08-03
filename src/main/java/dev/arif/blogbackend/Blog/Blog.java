@@ -1,5 +1,7 @@
 package dev.arif.blogbackend.Blog;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.arif.blogbackend.Comment.Comment;
 import dev.arif.blogbackend.User.User;
 import dev.arif.blogbackend.Subject.Subject;
@@ -52,13 +54,16 @@ public class Blog {
 
     @ManyToOne
     @JoinColumn(name="subject_id")
+    @JsonBackReference
     private Subject subject;
 
     @OneToMany(mappedBy = "blog")
+    @JsonManagedReference
     private List<Comment> comments;
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private User user;
 
     @ManyToMany(mappedBy = "likedBlogs")
