@@ -56,8 +56,7 @@ public class BlogServiceImpl implements BlogService{
                 .orElseThrow(()-> new ResourceNotFoundException(
                         "Subject with id [%s] not found".formatted(createBlogRequest.getSubjectId())
                 ));
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = (User) authentication.getPrincipal();
+        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Blog blog = blogMapper.createBlogRequestToBlog(createBlogRequest);
         blog.setSubject(subject);
         blog.setUser(user);

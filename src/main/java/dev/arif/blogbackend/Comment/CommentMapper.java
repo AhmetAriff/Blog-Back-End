@@ -1,6 +1,9 @@
 package dev.arif.blogbackend.Comment;
 
+import dev.arif.blogbackend.User.User;
+import dev.arif.blogbackend.User.UserDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;

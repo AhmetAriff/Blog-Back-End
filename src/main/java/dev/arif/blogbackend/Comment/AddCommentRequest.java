@@ -8,5 +8,4 @@ public class AddCommentRequest {
     @NotBlank(message = "comment can not be null")
     private String comment;
     private Long blogId;
-    private Long userId;
 }

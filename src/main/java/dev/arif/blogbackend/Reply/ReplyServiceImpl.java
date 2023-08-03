@@ -7,6 +7,7 @@ import dev.arif.blogbackend.User.User;
 import dev.arif.blogbackend.User.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,15 +24,11 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyMapper replyMapper;
     @Override
     public void addReply(CreateReplyRequest createReplyRequest) {
-
-        User user = userRepository.findUserByUserId(createReplyRequest.getUserId())
-                .orElseThrow(()-> new ResourceNotFoundException(
-                        "User with id [%s] not found".formatted(createReplyRequest.getUserId())
-                ));
         Comment comment = commentRepository.findById(createReplyRequest.getCommentId())
                 .orElseThrow(()-> new ResourceNotFoundException(
                         "Comment with id [%s] not found".formatted(createReplyRequest.getCommentId())
                 ));
+        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Reply reply = replyMapper.createReplyRequestToReply(createReplyRequest);
         reply.setUser(user);
         reply.setComment(comment);

@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import static dev.arif.blogbackend.User.Role.ADMIN;
 import static dev.arif.blogbackend.User.Role.USER;
 @Configuration
 @EnableWebSecurity
@@ -37,9 +38,11 @@ public class SecurityFilterChainConfig {
                             .permitAll()
                             .requestMatchers(
                                     "/api/v1/subjects/**",
-                                    "/api/v1/blogs/**"
+                                    "/api/v1/blogs/**",
+                                    "/api/v1/comments/**",
+                                    "/api/v1/replies/**"
                             )
-                            .hasAnyRole(USER.name())
+                            .hasAnyRole(USER.name(), ADMIN.name())
                             .anyRequest()
                             .authenticated();
                 })
