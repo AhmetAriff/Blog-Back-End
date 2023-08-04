@@ -2,6 +2,7 @@ package dev.arif.blogbackend.Reply;
 
 import dev.arif.blogbackend.Comment.Comment;
 import dev.arif.blogbackend.User.User;
+import dev.arif.blogbackend.User.UserDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,6 @@ public class ReplyDto {
     private Long id;
     private String reply;
     private LocalDateTime replyDate;
-    private User user;
+    private UserDto userDto;
 
 }

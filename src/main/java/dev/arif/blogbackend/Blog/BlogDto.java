@@ -16,16 +16,16 @@ public class BlogDto {
 
     private String text;
 
-    private String blogImageId;
-
-    private SubjectDto subjectDto;
-
     private int likeCount; //entity sınıfımda yok sadece burda var
     // entiyiyi koyarsam @Transient anatasyonu eklemeliyim
 
     private LocalDateTime createdDate;
 
     private LocalDateTime updatedDate;
+
+    private String blogImageId;
+
+    private SubjectDto subjectDto;
 
     private UserDto userDto;
 }

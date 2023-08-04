@@ -18,10 +18,9 @@ import java.util.List;
 @Transactional
 public class ReplyServiceImpl implements ReplyService {
 
-    private final UserRepository userRepository;
     private final ReplyRepository replyRepository;
     private final CommentRepository commentRepository;
-    private final ReplyMapper replyMapper;
+    private final ReplyMapperService replyMapperService;
     @Override
     public void addReply(CreateReplyRequest createReplyRequest) {
         Comment comment = commentRepository.findById(createReplyRequest.getCommentId())
@@ -29,7 +28,7 @@ public class ReplyServiceImpl implements ReplyService {
                         "Comment with id [%s] not found".formatted(createReplyRequest.getCommentId())
                 ));
         var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Reply reply = replyMapper.createReplyRequestToReply(createReplyRequest);
+        Reply reply = replyMapperService.createReplyRequestToReply(createReplyRequest);
         reply.setUser(user);
         reply.setComment(comment);
         reply.setReplyDate(LocalDateTime.now());
@@ -39,11 +38,12 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public List<ReplyDto> getRepliesByCommentId (Long commentId) {
-        return replyMapper.repliesToReplyDtoList(
-                replyRepository.findRepliesByComment_CommentId(commentId)
-                        .orElseThrow(()-> new ResourceNotFoundException(
-                                "Comment with id [%s] not found".formatted(commentId)
-                        ))
+        var comment = commentRepository.findById(commentId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                        "Comment with id [%s] id is not found".formatted(commentId)
+                ));
+        return replyMapperService.repliesToReplyDtoList(
+                replyRepository.findRepliesByComment(comment)
         );
     }
 

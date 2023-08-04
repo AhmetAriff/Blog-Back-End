@@ -54,16 +54,13 @@ public class Blog {
 
     @ManyToOne
     @JoinColumn(name="subject_id")
-    @JsonBackReference
     private Subject subject;
 
     @OneToMany(mappedBy = "blog")
-    @JsonManagedReference
     private List<Comment> comments;
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    @JsonBackReference
     private User user;
 
     @ManyToMany(mappedBy = "likedBlogs")

@@ -7,6 +7,5 @@ import lombok.Data;
 public class CreateReplyRequest {
     @NotBlank(message = "reply can not be null")
     private String reply;
-    private Long userId;
     private Long commentId;
 }

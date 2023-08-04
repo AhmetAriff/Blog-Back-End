@@ -52,11 +52,9 @@ public class User implements UserDetails {
     private String userImageId;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Blog> blogs;
 
     @OneToMany(mappedBy="user",cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

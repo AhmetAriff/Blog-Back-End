@@ -42,16 +42,13 @@ public class Comment {
     private LocalDateTime commentDate;
 
     @OneToMany(mappedBy = "comment",cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Reply> replies;
 
     @ManyToOne
     @JoinColumn(name = "blog_id")
-    @JsonBackReference
     private Blog blog;
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    @JsonBackReference
     private User user;
 }

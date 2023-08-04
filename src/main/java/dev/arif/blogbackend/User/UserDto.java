@@ -10,6 +10,6 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String userName;
-    private List<String> roles;
     private String userImageId;
+    private List<String> roles;
 }

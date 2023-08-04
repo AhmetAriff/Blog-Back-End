@@ -30,6 +30,5 @@ public class Subject {
     private String subjectName;
 
     @OneToMany(mappedBy = "subject",cascade=CascadeType.ALL)
-    @JsonManagedReference
     private List<Blog> blogs;
 }

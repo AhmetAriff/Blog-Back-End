@@ -38,11 +38,13 @@ public class CommentServiceImpl implements CommentService {
     }
     @Override
     public List<CommentDto> getCommentsByBlogIdOrderByCommentDateDesc(Long blogId) {
+
+        var blog = blogRepository.findById(blogId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                                "blog with id [%s] is not found".formatted(blogId)
+                ));
         return commentMapperService.commentsToCommentDtoList(
-                commentRepository.findCommentsByBlog_BlogIdOrderByCommentDateDesc(blogId)
-                        .orElseThrow(()-> new ResourceNotFoundException(
-                                "Blog with id [%s] not found".formatted(blogId)
-                        ))
+                commentRepository.findCommentsByBlogOrderByCommentDateDesc(blog)
         );
     }
 
