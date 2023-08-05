@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.Blog;
 
+import dev.arif.blogbackend.Exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,9 +26,26 @@ public class BlogController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<BlogDto>> getBlogsOrderByCreatedDate() {
-        return ResponseEntity.ok(blogService.getBlogsOrderByCreatedDate()) ;
+    @GetMapping("sorting")
+    public ResponseEntity<List<BlogDto>> getBlogsOrderBy(@RequestParam(required = false)String sort_by) {
+        if(sort_by.equalsIgnoreCase("created-date"))
+            return ResponseEntity.ok(blogService.getBlogsOrderByCreatedDate());
+        else if (sort_by.equalsIgnoreCase("like"))
+            return ResponseEntity.ok(blogService.getBlogsOrderByLike());
+        else
+            throw new RuntimeException("invalid sort parameter");
+    }
+
+    @GetMapping("filtering")
+    public ResponseEntity<List<BlogDto>> getBlogsFilterBy(@RequestParam(required = false)String filterBy, @RequestParam Long id)
+
+    {
+        if(filterBy.equalsIgnoreCase("subject"))
+            return ResponseEntity.ok(blogService.getBlogsBySubject(id));
+        else if (filterBy.equalsIgnoreCase("user"))
+            return ResponseEntity.ok(blogService.getBlogsByUser(id));
+        else
+            throw new RuntimeException("invalid sort parameter");
     }
 
     @PostMapping(

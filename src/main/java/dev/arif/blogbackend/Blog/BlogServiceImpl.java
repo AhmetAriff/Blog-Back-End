@@ -92,7 +92,7 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
-    public List<BlogDto> getBlogsOrderByLike(Long userId) {
+    public List<BlogDto> getBlogsOrderByLike() {
        return blogMapperService.blogsToBlogDtoList(
                blogRepository.findAllOrderByLikesDesc()
        );

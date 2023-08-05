@@ -12,7 +12,7 @@ public interface BlogService {
     List<BlogDto> getBlogsOrderByCreatedDate();
     List<BlogDto> getBlogsBySubject(Long subjectId);
     List<BlogDto> getBlogsByUser(Long userId);
-    List<BlogDto> getBlogsOrderByLike(Long userId);
+    List<BlogDto> getBlogsOrderByLike();
     List<BlogDto> getBlogsByUserLike(Long userId);
     void updateBlog(UpdateBlogRequest updateBlogRequest);
 
