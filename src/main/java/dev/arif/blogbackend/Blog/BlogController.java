@@ -43,7 +43,7 @@ public class BlogController {
         if(filterBy.equalsIgnoreCase("subject"))
             return ResponseEntity.ok(blogService.getBlogsBySubject(id));
         else if (filterBy.equalsIgnoreCase("user"))
-            return ResponseEntity.ok(blogService.getBlogsByUser(id));
+            return ResponseEntity.ok(blogService.getBlogsByUser());
         else
             throw new RuntimeException("invalid filter parameter");
     }

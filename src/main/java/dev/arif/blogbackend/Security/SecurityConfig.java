@@ -22,7 +22,7 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(){
         return userName -> userRepository.findUserByUserName(userName)
-                .orElseThrow(()-> new UsernameNotFoundException("User not found"));//TODO custom exception handling
+                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 
     @Bean

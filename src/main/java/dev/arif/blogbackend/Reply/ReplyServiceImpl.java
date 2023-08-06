@@ -49,11 +49,11 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public void deleteReply(Long replyId) {
-        replyRepository.delete(
-                replyRepository.findById(replyId)
-                        .orElseThrow(()-> new ResourceNotFoundException(
-                                "Reply with id [%s] not found".formatted(replyId)
-                        ))
-        );
+    var reply = replyRepository.findById(replyId)
+            .orElseThrow(()-> new ResourceNotFoundException(
+                    "Reply with id [%s] not found".formatted(replyId)
+            ));
+    if(reply.getUser() == (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+        replyRepository.delete(reply);// userlar sadece kendi yanıtlarını silebilir
     }
 }

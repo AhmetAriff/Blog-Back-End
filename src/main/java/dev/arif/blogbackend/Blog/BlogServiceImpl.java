@@ -76,20 +76,19 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<BlogDto> getBlogsBySubject(Long subjectId) {
+        var subject = subjectRepository.findSubjectBySubjectId(subjectId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                        "subject with id [%s] is not found".formatted(subjectId)
+                ));
         return blogMapperService.blogsToBlogDtoList(
-                blogRepository.findBlogsBySubject_SubjectId(subjectId)
-                        .orElseThrow(()-> new ResourceNotFoundException(
-                                "Subject with [%s] is not found".formatted(subjectId)
-                        ))
+                blogRepository.findBlogsBySubject(subject)
         );
     }
     @Override
-    public List<BlogDto> getBlogsByUser(Long userId) {
+    public List<BlogDto> getBlogsByUser() {
+        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return blogMapperService.blogsToBlogDtoList(
-                blogRepository.findBlogByUser_UserId(userId)
-                        .orElseThrow(()-> new ResourceNotFoundException(
-                                "User with [%s] id not found".formatted(userId)
-                        ))
+                blogRepository.findBlogsByUser(user)
         );
     }
 
@@ -138,6 +137,16 @@ public class BlogServiceImpl implements BlogService{
                                  )),updateBlogRequest
                  )
          );
+    }
+
+    @Override
+    public void deleteBlog(Long blogId) {
+        var blog = blogRepository.findBlogByBlogId(blogId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                        "blog with id [%s] is not found".formatted(blogId)
+                ));
+        if (blog.getUser() == (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+            blogRepository.delete(blog);// userlar sadece kendi bloglarını silebilir
     }
 
     @Override

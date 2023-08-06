@@ -60,11 +60,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteCommentsByCommentId(Long commentId) {
-        commentRepository.delete(
-                commentRepository.findById(commentId)
-                        .orElseThrow(()-> new ResourceNotFoundException(
-                                "Comment with id [%s] not found".formatted(commentId)
-                        ))
-        );
+        var comment = commentRepository.findById(commentId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                        "comment with id [%s] is not found".formatted(commentId)
+                ));
+        if(comment.getUser() == (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+            commentRepository.delete(comment);// her user sadece kendi yorumunu silebilir.
     }
 }
