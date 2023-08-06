@@ -145,8 +145,10 @@ public class BlogServiceImpl implements BlogService{
                 .orElseThrow(()-> new ResourceNotFoundException(
                         "blog with id [%s] is not found".formatted(blogId)
                 ));
-        if (blog.getUser() == (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-            blogRepository.delete(blog);// userlar sadece kendi bloglarını silebilir
+        if (blog.getUser() == (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()) {
+            blogRepository.delete(blog);}
+
+        else { throw new ResourceNotFoundException("asdfasfsaf");}
     }
 
     @Override

@@ -66,7 +66,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Token> tokens;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "blog_like",
             joinColumns = @JoinColumn(name = "user_id"),

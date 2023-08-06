@@ -36,6 +36,7 @@ public class BlogMapperService {
         blogDto.setTitle( blog.getTitle() );
         blogDto.setText( blog.getText() );
         blogDto.setBlogImageId( blog.getBlogImageId() );
+        blogDto.setLikeCount(blog.getLikes().size());
         blogDto.setSubjectDto( subjectMapper.subjectToSubjectDto(blog.getSubject()) );
         blogDto.setCreatedDate( blog.getCreatedDate() );
         blogDto.setUpdatedDate( blog.getUpdatedDate() );

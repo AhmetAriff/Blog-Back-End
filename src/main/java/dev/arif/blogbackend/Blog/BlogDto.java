@@ -16,8 +16,7 @@ public class BlogDto {
 
     private String text;
 
-    private int likeCount; //entity sınıfımda yok sadece burda var
-    // entiyiyi koyarsam @Transient anatasyonu eklemeliyim
+    private int likeCount;
 
     private LocalDateTime createdDate;
 
