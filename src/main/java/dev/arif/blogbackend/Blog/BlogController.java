@@ -45,7 +45,7 @@ public class BlogController {
         else if (filterBy.equalsIgnoreCase("user"))
             return ResponseEntity.ok(blogService.getBlogsByUser(id));
         else
-            throw new RuntimeException("invalid sort parameter");
+            throw new RuntimeException("invalid filter parameter");
     }
 
     @PostMapping(

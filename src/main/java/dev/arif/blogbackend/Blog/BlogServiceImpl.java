@@ -5,6 +5,7 @@ import dev.arif.blogbackend.S3.S3Service;
 import dev.arif.blogbackend.Subject.Subject;
 import dev.arif.blogbackend.Subject.SubjectRepository;
 import dev.arif.blogbackend.User.User;
+import dev.arif.blogbackend.User.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +30,7 @@ public class BlogServiceImpl implements BlogService{
     private final BlogRepository blogRepository;
     private final SubjectRepository subjectRepository;
     private final BlogMapperService blogMapperService;
+    private final UserRepository userRepository;
 
     private void checkIfBlogExistOrThrow(Long blogId) {
         if(!blogRepository.existsBlogByBlogId(blogId)){
@@ -109,12 +111,30 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
+    public void changeLikeRate(Long blogId) {
+        var blog = blogRepository.findBlogByBlogId(blogId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                        "Blog with [%s] id is not found".formatted(blogId)
+                ));
+        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(user.getLikedBlogs().contains(blog)){
+            user.getLikedBlogs().remove(blog);
+            userRepository.save(user);
+        }
+        else {
+            user.getLikedBlogs().add(blog);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
     public void updateBlog(UpdateBlogRequest updateBlogRequest) {
          blogRepository.save(
                  blogMapperService.updateBlogRequestToBlog(
                          blogRepository.findBlogByBlogId(updateBlogRequest.getBlogId())
                                  .orElseThrow(()-> new ResourceNotFoundException(
-                                         "Blog with [%s] is is not found".formatted(updateBlogRequest.getBlogId())
+                                         "Blog with [%s] id is not found".formatted(updateBlogRequest.getBlogId())
                                  )),updateBlogRequest
                  )
          );
@@ -126,6 +146,7 @@ public class BlogServiceImpl implements BlogService{
                 .orElseThrow(()-> new  ResourceNotFoundException(
                         "blog with id [%s] not found".formatted(blogId)
                 ));
+
 
         if (StringUtils.isBlank(blog.getBlogImageId())) {
             throw new ResourceNotFoundException(

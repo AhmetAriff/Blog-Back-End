@@ -44,11 +44,9 @@ public class AuthService {
         revokeAllUserTokens(user);
         saveUserToken(user,jwtToken);
 
-        UserDto userDto = userMapperService.userToUserDto(user);
         return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
-                .userDto(userDto)
                 .build();
     }
 
@@ -91,7 +89,6 @@ public class AuthService {
                     .orElseThrow(()-> new ResourceNotFoundException(
                             "User with username [%s] is not found".formatted(userName)
                     ));
-            UserDto userDto = userMapperService.userToUserDto(user);
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);
@@ -99,7 +96,6 @@ public class AuthService {
                 var authResponse = AuthResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
-                        .userDto(userDto)
                         .build();
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
