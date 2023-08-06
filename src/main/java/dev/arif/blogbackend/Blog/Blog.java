@@ -54,7 +54,7 @@ public class Blog {
     @JoinColumn(name="subject_id")
     private Subject subject;
 
-    @OneToMany(mappedBy = "blog")
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @ManyToOne

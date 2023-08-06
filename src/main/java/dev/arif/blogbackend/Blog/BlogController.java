@@ -45,7 +45,7 @@ public class BlogController {
             throw new RuntimeException("invalid filter parameter");
     }
 
-    @PutMapping("{blogId}/changeLikeRate")
+    @PutMapping("changeLikeRate/{blogId}")
     public ResponseEntity<?> changeLikeRate(@PathVariable Long blogId){
         blogService.changeLikeRate(blogId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

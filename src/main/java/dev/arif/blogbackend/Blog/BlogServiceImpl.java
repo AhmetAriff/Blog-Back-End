@@ -20,6 +20,7 @@ import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 @RequiredArgsConstructor
 @Service
@@ -141,13 +142,14 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public void deleteBlog(Long blogId) {
-        var blog = blogRepository.findBlogByBlogId(blogId)
+        Blog blog = blogRepository.findById(blogId)
                 .orElseThrow(()-> new ResourceNotFoundException(
                         "blog with id [%s] is not found".formatted(blogId)
                 ));
-        if (blog.getUser() == (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()) {
-            blogRepository.delete(blog);}
-
+        var user  = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (Objects.equals(user.getUserId(), blog.getUser().getUserId())) {
+            blogRepository.delete(blog);
+        }
         else { throw new ResourceNotFoundException("asdfasfsaf");}
     }
 
