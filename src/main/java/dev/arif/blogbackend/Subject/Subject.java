@@ -26,9 +26,9 @@ public class Subject {
     )
     private Long subjectId;
 
-    @Column(name = "subject_name",nullable = false,unique = true )
+    @Column(name = "subject_name", nullable = false, unique = true)
     private String subjectName;
 
-    @OneToMany(mappedBy = "subject",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<Blog> blogs;
 }

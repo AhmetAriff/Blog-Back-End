@@ -8,7 +8,8 @@ import java.util.List;
 public enum Role {
     ADMIN,
     USER;
-    public List<SimpleGrantedAuthority> getAuthorities(){
+
+    public List<SimpleGrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return authorities;

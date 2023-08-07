@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -19,7 +20,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public void addSubject(CreateSubjectRequest createSubjectRequest) {
         String subjectName = createSubjectRequest.getSubjectName();
-        if(subjectRepository.existsSubjectBySubjectName(subjectName)){
+        if (subjectRepository.existsSubjectBySubjectName(subjectName)) {
             throw new DuplicateResourceException(
                     "subject [%s] is already registered".formatted(subjectName)
             );
@@ -32,12 +33,12 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public SubjectDto getSubjectById(Long subjectId) {
-           return subjectMapper.subjectToSubjectDto(
-                   subjectRepository.findSubjectBySubjectId(subjectId)
-                           .orElseThrow(()-> new ResourceNotFoundException(
-                                   "subject with id [%s] not found".formatted(subjectId)
-                           ))
-           );
+        return subjectMapper.subjectToSubjectDto(
+                subjectRepository.findSubjectBySubjectId(subjectId)
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                "subject with id [%s] not found".formatted(subjectId)
+                        ))
+        );
     }
 
     @Override
@@ -50,10 +51,10 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public void deleteSubject(Long subjectId) {
         subjectRepository.delete(
-            subjectRepository.findSubjectBySubjectId(subjectId)
-                    .orElseThrow(()->new ResourceNotFoundException(
-                            "subject with id [%s] not found".formatted(subjectId)
-                    ))
+                subjectRepository.findSubjectBySubjectId(subjectId)
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                "subject with id [%s] not found".formatted(subjectId)
+                        ))
         );
     }
 }

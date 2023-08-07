@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserMapperService {
 
-    public UserDto userToUserDto(User user){
+    public UserDto userToUserDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setUserId(user.getUserId());
         userDto.setUserName(user.getUsername());

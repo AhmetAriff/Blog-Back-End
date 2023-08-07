@@ -24,8 +24,8 @@ public class BlogController {
     }
 
     @GetMapping("sorting")
-    public ResponseEntity<List<BlogDto>> getBlogsOrderBy(@RequestParam(required = false)String sort_by) {
-        if(sort_by.equalsIgnoreCase("created-date"))
+    public ResponseEntity<List<BlogDto>> getBlogsOrderBy(@RequestParam(required = false) String sort_by) {
+        if (sort_by.equalsIgnoreCase("created-date"))
             return ResponseEntity.ok(blogService.getBlogsOrderByCreatedDate());
         else if (sort_by.equalsIgnoreCase("like"))
             return ResponseEntity.ok(blogService.getBlogsOrderByLike());
@@ -34,10 +34,8 @@ public class BlogController {
     }
 
     @GetMapping("filtering")
-    public ResponseEntity<List<BlogDto>> getBlogsFilterBy(@RequestParam(required = false)String filterBy, @RequestParam Long id)
-
-    {
-        if(filterBy.equalsIgnoreCase("subject"))
+    public ResponseEntity<List<BlogDto>> getBlogsFilterBy(@RequestParam(required = false) String filterBy, @RequestParam Long id) {
+        if (filterBy.equalsIgnoreCase("subject"))
             return ResponseEntity.ok(blogService.getBlogsBySubject(id));
         else if (filterBy.equalsIgnoreCase("user"))
             return ResponseEntity.ok(blogService.getBlogsByUser());
@@ -46,12 +44,13 @@ public class BlogController {
     }
 
     @PutMapping("changeLikeRate/{blogId}")
-    public ResponseEntity<?> changeLikeRate(@PathVariable Long blogId){
+    public ResponseEntity<?> changeLikeRate(@PathVariable Long blogId) {
         blogService.changeLikeRate(blogId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
     @DeleteMapping("{blogId}")
-    public ResponseEntity<?> deleteBlog(@PathVariable Long blogId){
+    public ResponseEntity<?> deleteBlog(@PathVariable Long blogId) {
         blogService.deleteBlog(blogId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -62,8 +61,8 @@ public class BlogController {
     )
     public void uploadBlogImage(
             @PathVariable("blogId") Long BlogId,
-            @RequestParam("file")MultipartFile file) {
-         blogService.uploadBlogImage(BlogId,file) ;
+            @RequestParam("file") MultipartFile file) {
+        blogService.uploadBlogImage(BlogId, file);
     }
 
     @GetMapping(

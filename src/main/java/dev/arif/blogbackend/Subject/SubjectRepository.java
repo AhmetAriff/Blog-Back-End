@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SubjectRepository extends JpaRepository<Subject,Long> {
+public interface SubjectRepository extends JpaRepository<Subject, Long> {
 
     boolean existsSubjectBySubjectName(String subjectName);
 

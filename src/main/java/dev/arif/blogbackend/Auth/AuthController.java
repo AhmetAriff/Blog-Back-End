@@ -20,10 +20,10 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("login")
-    public ResponseEntity<?> login (@Valid @RequestBody AuthRequest request){
+    public ResponseEntity<?> login(@Valid @RequestBody AuthRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION,response.accessToken,response.refreshToken)
+                .header(HttpHeaders.AUTHORIZATION, response.accessToken, response.refreshToken)
                 .body(response);
     }
 

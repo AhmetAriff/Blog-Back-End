@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ReplyRepository extends JpaRepository<Reply,Long> {
+public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
-     List<Reply> findRepliesByComment(Comment comment);
+    List<Reply> findRepliesByComment(Comment comment);
 }

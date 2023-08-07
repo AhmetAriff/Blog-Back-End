@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import static dev.arif.blogbackend.User.Role.ADMIN;
 import static dev.arif.blogbackend.User.Role.USER;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class SecurityFilterChainConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth->{
+                .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers(
                                     "/api/v1/auth/**",
@@ -46,10 +47,10 @@ public class SecurityFilterChainConfig {
                             .anyRequest()
                             .authenticated();
                 })
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout->{
+                .logout(logout -> {
                     logout.logoutUrl("/api/v1/auth/logout")
                             .addLogoutHandler(logoutHandler)
                             .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()));

@@ -10,16 +10,21 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findUserByUserId(Long userId);
 
     Optional<User> findUserByUserName(String userName);
+
     Boolean existsUserByUserId(Long blogId);
+
     @Modifying
     @Query("update User u set u.userImageId = :image where u.userId = :id")
     void updateUserProfileImage(@Param(value = "id") long id, @Param(value = "image") String image);
+
     Optional<User> findUserByMail(String mail);
+
     Boolean existsUserByUserName(String userName);
+
     Boolean existsUserByMail(String mail);
 }

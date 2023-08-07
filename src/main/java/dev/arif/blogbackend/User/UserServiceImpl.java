@@ -28,20 +28,21 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     private void checkIfUserExistOrThrow(Long userId) {
-        if(!userRepository.existsUserByUserId(userId)){
+        if (!userRepository.existsUserByUserId(userId)) {
             throw new ResourceNotFoundException(
                     "user with id [%s] not found".formatted(userId)
             );
         }
     }
+
     @Override
     public void uploadUserProfileImage(Long userId, MultipartFile file) {
         checkIfUserExistOrThrow(userId);
         String userProfileImageId = UUID.randomUUID().toString();
         try {
-            s3Service.putObject("user-images/%s/%s".formatted(userId,userProfileImageId),
+            s3Service.putObject("user-images/%s/%s".formatted(userId, userProfileImageId),
                     file.getBytes());
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException("failed to upload profile image", e);
         }
         userRepository.updateUserProfileImage(userId, userProfileImageId);
@@ -50,19 +51,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public byte[] getUserProfileImage(Long userId) {
         var user = userRepository.findUserByUserId(userId)
-                .orElseThrow(()->new ResourceNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "user with id [%s] not found".formatted(userId)
                 ));
 
-        if(StringUtils.isBlank(user.getUserImageId())){
+        if (StringUtils.isBlank(user.getUserImageId())) {
             throw new ResourceNotFoundException(
                     "user with id [%s] user profile image not found".formatted(userId));
         }
 
         return s3Service.getObject(
-                "user-images/%s/%s".formatted(userId,user.getUserImageId())
+                "user-images/%s/%s".formatted(userId, user.getUserImageId())
         );
     }
+
     @Override
     public void saveUserVerificationToken(User user, String token) {
         var verificationToken = new VerificationToken(token, user);
@@ -72,12 +74,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean validateVerificationToken(String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
-                .orElseThrow(()->new ResourceNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Not found [%s] verification token".formatted(token)
                 ));
         User user = verificationToken.getUser();
         Calendar calendar = Calendar.getInstance();
-        if ((verificationToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0){
+        if ((verificationToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             verificationTokenRepository.delete(verificationToken);
             throw new TokenExpiredException();
         }
@@ -88,11 +90,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(UserRegistrationRequest request) {
-        if(userRepository.existsUserByUserName(request.getUserName()))
+        if (userRepository.existsUserByUserName(request.getUserName()))
             throw new DuplicateResourceException(
                     "username [%s] already exist".formatted(request.getUserName())
             );
-        if(userRepository.existsUserByMail(request.getMail()))
+        if (userRepository.existsUserByMail(request.getMail()))
             throw new DuplicateResourceException(
                     "mail [%s] already exist".formatted(request.getMail())
             );
@@ -103,6 +105,6 @@ public class UserServiceImpl implements UserService {
         user.setRole(Role.USER);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
-        return  user;
+        return user;
     }
 }

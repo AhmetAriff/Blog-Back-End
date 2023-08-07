@@ -42,6 +42,6 @@ public class Reply {
     private Comment comment;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 }

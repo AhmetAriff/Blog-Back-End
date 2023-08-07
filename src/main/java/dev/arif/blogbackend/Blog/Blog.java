@@ -25,7 +25,7 @@ public class Blog {
 
     @Id
     @SequenceGenerator(
-            name="blog_id_seq",
+            name = "blog_id_seq",
             sequenceName = "blog_id_seq",
             allocationSize = 1
     )
@@ -35,33 +35,33 @@ public class Blog {
     )
     private Long blogId;
 
-    @Column(name = "title",nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name="text",nullable = false)
+    @Column(name = "text", nullable = false)
     private String text;
 
-    @Column(name="blog_image_id")
+    @Column(name = "blog_image_id")
     private String blogImageId;
 
-    @Column(name="created_date")
+    @Column(name = "created_date")
     private LocalDateTime createdDate;
 
-    @Column(name="updated_date")
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    @JoinColumn(name="subject_id")
+    @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(mappedBy = "likedBlogs",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "likedBlogs", fetch = FetchType.EAGER)
     Set<User> likes;
 
     @Override

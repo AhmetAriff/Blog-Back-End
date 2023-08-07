@@ -9,7 +9,10 @@ import java.util.List;
 public interface SubjectMapper {
 
     SubjectMapper INSTANCE = Mappers.getMapper(SubjectMapper.class);
+
     SubjectDto subjectToSubjectDto(Subject subject);
+
     List<SubjectDto> subjectListToSubjectDtoList(List<Subject> subjectList);
+
     Subject createSubjectRequestToSubject(CreateSubjectRequest subjectRequest);
 }

@@ -22,10 +22,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class BlogServiceImpl implements BlogService{
+public class BlogServiceImpl implements BlogService {
 
     private final S3Service s3Service;
     private final BlogRepository blogRepository;
@@ -34,20 +35,21 @@ public class BlogServiceImpl implements BlogService{
     private final UserRepository userRepository;
 
     private void checkIfBlogExistOrThrow(Long blogId) {
-        if(!blogRepository.existsBlogByBlogId(blogId)){
+        if (!blogRepository.existsBlogByBlogId(blogId)) {
             throw new ResourceNotFoundException(
                     "blog with id [%s] not found".formatted(blogId)
             );
         }
     }
+
     @Override
     public void uploadBlogImage(Long blogId, MultipartFile file) {
         checkIfBlogExistOrThrow(blogId);
         String blogImageId = UUID.randomUUID().toString();
         try {
-            s3Service.putObject("blog-images/%s/%s".formatted(blogId,blogImageId),
-            file.getBytes());
-        }catch (IOException e){
+            s3Service.putObject("blog-images/%s/%s".formatted(blogId, blogImageId),
+                    file.getBytes());
+        } catch (IOException e) {
             throw new RuntimeException("failed to upload blog image", e);
         }
         blogRepository.updateBlogImage(blogId, blogImageId);
@@ -56,7 +58,7 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public void addBlog(CreateBlogRequest createBlogRequest) {
         Subject subject = subjectRepository.findById(createBlogRequest.getSubjectId())
-                .orElseThrow(()-> new ResourceNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Subject with id [%s] not found".formatted(createBlogRequest.getSubjectId())
                 ));
         var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -78,13 +80,14 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public List<BlogDto> getBlogsBySubject(Long subjectId) {
         var subject = subjectRepository.findSubjectBySubjectId(subjectId)
-                .orElseThrow(()-> new ResourceNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "subject with id [%s] is not found".formatted(subjectId)
                 ));
         return blogMapperService.blogsToBlogDtoList(
                 blogRepository.findBlogsBySubject(subject)
         );
     }
+
     @Override
     public List<BlogDto> getBlogsByUser() {
         var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -95,16 +98,16 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<BlogDto> getBlogsOrderByLike() {
-       return blogMapperService.blogsToBlogDtoList(
-               blogRepository.findAllOrderByLikesDesc()
-       );
+        return blogMapperService.blogsToBlogDtoList(
+                blogRepository.findAllOrderByLikesDesc()
+        );
     }
 
     @Override
     public List<BlogDto> getBlogsByUserLike(Long userId) {
         return blogMapperService.blogsToBlogDtoList(
                 blogRepository.findDistinctByLikes_UserId(userId)
-                        .orElseThrow(()-> new ResourceNotFoundException(
+                        .orElseThrow(() -> new ResourceNotFoundException(
                                 "User with [%s] id not found".formatted(userId)
                         ))
         );
@@ -113,16 +116,15 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public void changeLikeRate(Long blogId) {
         var blog = blogRepository.findBlogByBlogId(blogId)
-                .orElseThrow(()-> new ResourceNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Blog with [%s] id is not found".formatted(blogId)
                 ));
         var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(user.getLikedBlogs().contains(blog)){
+        if (user.getLikedBlogs().contains(blog)) {
             user.getLikedBlogs().remove(blog);
             userRepository.save(user);
-        }
-        else {
+        } else {
             user.getLikedBlogs().add(blog);
             userRepository.save(user);
         }
@@ -130,33 +132,31 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public void updateBlog(UpdateBlogRequest updateBlogRequest) {
-         blogRepository.save(
-                 blogMapperService.updateBlogRequestToBlog(
-                         blogRepository.findBlogByBlogId(updateBlogRequest.getBlogId())
-                                 .orElseThrow(()-> new ResourceNotFoundException(
-                                         "Blog with [%s] id is not found".formatted(updateBlogRequest.getBlogId())
-                                 )),updateBlogRequest
-                 )
-         );
+        blogRepository.save(
+                blogMapperService.updateBlogRequestToBlog(
+                        blogRepository.findBlogByBlogId(updateBlogRequest.getBlogId())
+                                .orElseThrow(() -> new ResourceNotFoundException(
+                                        "Blog with [%s] id is not found".formatted(updateBlogRequest.getBlogId())
+                                )), updateBlogRequest
+                )
+        );
     }
 
     @Override
     public void deleteBlog(Long blogId) {
         Blog blog = blogRepository.findById(blogId)
-                .orElseThrow(()-> new ResourceNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "blog with id [%s] is not found".formatted(blogId)
                 ));
-        var user  = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (Objects.equals(user.getUserId(), blog.getUser().getUserId())) {
+        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (Objects.equals(user.getUserId(), blog.getUser().getUserId()))
             blogRepository.delete(blog);
-        }
-        else { throw new ResourceNotFoundException("asdfasfsaf");}
     }
 
     @Override
     public byte[] getBlogImage(Long blogId) {
         var blog = blogRepository.findBlogByBlogId(blogId)
-                .orElseThrow(()-> new  ResourceNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "blog with id [%s] not found".formatted(blogId)
                 ));
 
@@ -167,7 +167,7 @@ public class BlogServiceImpl implements BlogService{
         }
 
         return s3Service.getObject(
-                "blog-images/%s/%s".formatted(blogId,blog.getBlogImageId())
+                "blog-images/%s/%s".formatted(blogId, blog.getBlogImageId())
         );
     }
 
