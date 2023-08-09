@@ -105,11 +105,13 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<BlogDto> getBlogsByUserLike(Long userId) {
+        var user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                        "User with id [%s] is not found".formatted(userId)
+                ));
+
         return blogMapperService.blogsToBlogDtoList(
-                blogRepository.findDistinctByLikes_UserId(userId)
-                        .orElseThrow(() -> new ResourceNotFoundException(
-                                "User with [%s] id not found".formatted(userId)
-                        ))
+                blogRepository.findAllByLikesContaining(user)
         );
     }
 
@@ -124,7 +126,8 @@ public class BlogServiceImpl implements BlogService {
         if (user.getLikedBlogs().contains(blog)) {
             user.getLikedBlogs().remove(blog);
             userRepository.save(user);
-        } else {
+        }
+        else {
             user.getLikedBlogs().add(blog);
             userRepository.save(user);
         }

@@ -24,7 +24,7 @@ public interface BlogRepository extends JpaRepository<Blog, Long> {
 
     List<Blog> findBlogsByUser(User user);
 
-    Optional<List<Blog>> findDistinctByLikes_UserId(Long userId); //TODO fonksiyon bozuk olabilir düzelt
+    List<Blog> findAllByLikesContaining(User user); //TODO fonksiyon bozuk olabilir düzelt
 
     Boolean existsBlogByBlogId(Long blogId);
 

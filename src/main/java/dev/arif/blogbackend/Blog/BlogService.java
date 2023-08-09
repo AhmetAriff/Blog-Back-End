@@ -13,7 +13,7 @@ public interface BlogService {
     List<BlogDto> getBlogsBySubject(Long subjectId);
     List<BlogDto> getBlogsByUser();
     List<BlogDto> getBlogsOrderByLike();
-    List<BlogDto> getBlogsByUserLike(Long userId);// todo userin beğendiği blogları getiren service
+    List<BlogDto> getBlogsByUserLike(Long userId);
     void changeLikeRate(Long blogId);
     void updateBlog(UpdateBlogRequest updateBlogRequest);
     void deleteBlog(Long blogId);

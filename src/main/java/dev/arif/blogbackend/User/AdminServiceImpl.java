@@ -53,4 +53,12 @@ public class AdminServiceImpl implements AdminService {
                 ));
         userRepository.delete(user);
     }
+    @Override
+    public void giveAdminRole(Long userId) {
+        var user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                        "User with id [%s] is not found"
+                ));
+        user.setRole(Role.ADMIN);
+    }
 }

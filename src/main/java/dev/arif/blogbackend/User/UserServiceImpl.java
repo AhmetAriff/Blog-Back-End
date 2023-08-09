@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.User;
 
+import dev.arif.blogbackend.Blog.Blog;
 import dev.arif.blogbackend.Exception.DuplicateResourceException;
 import dev.arif.blogbackend.Exception.ResourceNotFoundException;
 import dev.arif.blogbackend.Exception.TokenExpiredException;
@@ -9,12 +10,15 @@ import dev.arif.blogbackend.Register.UserRegistrationRequest;
 import dev.arif.blogbackend.S3.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -26,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapperService userMapperService;
 
     private void checkIfUserExistOrThrow(Long userId) {
         if (!userRepository.existsUserByUserId(userId)) {
@@ -106,5 +111,30 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
         return user;
+    }
+
+    @Override
+    public void updateUser(UpdateUserRequest updateUserRequest) {
+        userRepository.save(
+                userMapperService.updateUserRequestToUser(updateUserRequest)
+        );
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "user with id [%s] is not found".formatted(userId)
+                ));
+        var currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (Objects.equals(user.getUserId(), currentUser.getUserId()))
+            userRepository.delete(user);
+    }
+
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userMapperService.usersToUserDtoList(
+                userRepository.findAll()
+        );
     }
 }

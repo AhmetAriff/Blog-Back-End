@@ -5,6 +5,7 @@ import dev.arif.blogbackend.User.UserMapperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +39,7 @@ public class BlogMapperService {
         blogDto.setBlogImageId( blog.getBlogImageId() );
         blogDto.setLikeCount(blog.getLikes().size());
         blogDto.setSubjectDto( subjectMapper.subjectToSubjectDto(blog.getSubject()) );
-        blogDto.setCreatedDate( blog.getCreatedDate() );
-        blogDto.setUpdatedDate( blog.getUpdatedDate() );
+        blogDto.setCreatedDate( LocalDateTime.now() );
         blogDto.setUserDto( userMapperService.userToUserDto(blog.getUser()));
 
         return blogDto;
@@ -67,6 +67,7 @@ public class BlogMapperService {
         blog.setTitle( updateBlogRequest.getTitle() );
         blog.setText( updateBlogRequest.getText() );
         blog.setSubject( updateBlogRequest.getSubject() );
+        blog.setUpdatedDate(LocalDateTime.now());
 
         return blog;
     }

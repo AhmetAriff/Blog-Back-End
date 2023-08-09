@@ -5,4 +5,5 @@ public interface AdminService {
     void deleteComment(Long commentId);
     void deleteReply(Long replyId);
     void deleteUser(Long userId);
+    void giveAdminRole(Long userId);
 }

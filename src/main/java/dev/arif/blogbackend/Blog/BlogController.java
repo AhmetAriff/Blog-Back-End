@@ -1,5 +1,6 @@
 package dev.arif.blogbackend.Blog;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +19,7 @@ public class BlogController {
 
 
     @PostMapping
-    public ResponseEntity<?> addBlog(@RequestBody CreateBlogRequest createBlogRequest) {
+    public ResponseEntity<?> addBlog(@Valid @RequestBody CreateBlogRequest createBlogRequest) {
         blogService.addBlog(createBlogRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -34,16 +34,19 @@ public class SecurityFilterChainConfig {
                     auth
                             .requestMatchers(
                                     "/api/v1/auth/**",
-                                    "api/v1/register/**"
+                                    "/api/v1/register/**"
                             )
                             .permitAll()
                             .requestMatchers(
                                     "/api/v1/subjects/**",
                                     "/api/v1/blogs/**",
                                     "/api/v1/comments/**",
-                                    "/api/v1/replies/**"
+                                    "/api/v1/replies/**",
+                                    "/api/v1/users/**"
                             )
                             .hasAnyRole(USER.name(), ADMIN.name())
+                            .requestMatchers("/api/v1/admin/**")
+                            .hasRole(ADMIN.name())
                             .anyRequest()
                             .authenticated();
                 })
