@@ -39,7 +39,9 @@ public class BlogController {
         if (filterBy.equalsIgnoreCase("subject"))
             return ResponseEntity.ok(blogService.getBlogsBySubject(id));
         else if (filterBy.equalsIgnoreCase("user"))
-            return ResponseEntity.ok(blogService.getBlogsByUser());
+            return ResponseEntity.ok(blogService.getBlogsByUser(id));
+        else if (filterBy.equalsIgnoreCase("users_like"))
+            return ResponseEntity.ok(blogService.getBlogsByUserLike(id));
         else
             throw new RuntimeException("invalid filter parameter");
     }
@@ -47,6 +49,12 @@ public class BlogController {
     @PutMapping("changeLikeRate/{blogId}")
     public ResponseEntity<?> changeLikeRate(@PathVariable Long blogId) {
         blogService.changeLikeRate(blogId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("{blogId}")
+    public ResponseEntity<?> updateBlog(@PathVariable Long blogId, @RequestBody UpdateBlogRequest updateBlogRequest){
+        blogService.updateBlog(blogId,updateBlogRequest);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

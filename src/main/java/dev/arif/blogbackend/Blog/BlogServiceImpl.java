@@ -89,8 +89,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogDto> getBlogsByUser() {
-        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public List<BlogDto> getBlogsByUser(Long userId){
+        var user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                        "User with id [%s] is not found".formatted(userId)
+                ));
         return blogMapperService.blogsToBlogDtoList(
                 blogRepository.findBlogsByUser(user)
         );
@@ -134,10 +137,10 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public void updateBlog(UpdateBlogRequest updateBlogRequest) {
+    public void updateBlog(Long blogId,UpdateBlogRequest updateBlogRequest) {
         blogRepository.save(
                 blogMapperService.updateBlogRequestToBlog(
-                        blogRepository.findBlogByBlogId(updateBlogRequest.getBlogId())
+                        blogRepository.findBlogByBlogId(blogId)
                                 .orElseThrow(() -> new ResourceNotFoundException(
                                         "Blog with [%s] id is not found".formatted(updateBlogRequest.getBlogId())
                                 )), updateBlogRequest

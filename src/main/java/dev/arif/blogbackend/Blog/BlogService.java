@@ -11,11 +11,11 @@ public interface BlogService {
     void addBlog(CreateBlogRequest createBlogRequest);
     List<BlogDto> getBlogsOrderByCreatedDate();
     List<BlogDto> getBlogsBySubject(Long subjectId);
-    List<BlogDto> getBlogsByUser();
+    List<BlogDto> getBlogsByUser(Long userId);
     List<BlogDto> getBlogsOrderByLike();
     List<BlogDto> getBlogsByUserLike(Long userId);
     void changeLikeRate(Long blogId);
-    void updateBlog(UpdateBlogRequest updateBlogRequest);
+    void updateBlog(Long blogId,UpdateBlogRequest updateBlogRequest);
     void deleteBlog(Long blogId);
 
 }
